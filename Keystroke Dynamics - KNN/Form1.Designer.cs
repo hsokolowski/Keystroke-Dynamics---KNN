@@ -36,6 +36,7 @@
             this.ZatwierdzButton = new System.Windows.Forms.Button();
             this.CzastextBox = new System.Windows.Forms.TextBox();
             this.errorLabel = new System.Windows.Forms.Label();
+            this.sprawdz = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -98,6 +99,7 @@
             this.CzastextBox.Name = "CzastextBox";
             this.CzastextBox.Size = new System.Drawing.Size(319, 22);
             this.CzastextBox.TabIndex = 6;
+            this.CzastextBox.TextChanged += new System.EventHandler(this.CzastextBox_TextChanged);
             // 
             // errorLabel
             // 
@@ -113,11 +115,22 @@
             this.errorLabel.Text = "ERROR";
             this.errorLabel.Visible = false;
             // 
+            // sprawdz
+            // 
+            this.sprawdz.Location = new System.Drawing.Point(446, 197);
+            this.sprawdz.Name = "sprawdz";
+            this.sprawdz.Size = new System.Drawing.Size(96, 24);
+            this.sprawdz.TabIndex = 8;
+            this.sprawdz.Text = "Sprawdź";
+            this.sprawdz.UseVisualStyleBackColor = true;
+            this.sprawdz.Click += new System.EventHandler(this.sprawdz_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.sprawdz);
             this.Controls.Add(this.errorLabel);
             this.Controls.Add(this.CzastextBox);
             this.Controls.Add(this.ZatwierdzButton);
@@ -144,6 +157,7 @@
         private System.Windows.Forms.Button ZatwierdzButton;
         private System.Windows.Forms.TextBox CzastextBox;
         private System.Windows.Forms.Label errorLabel;
+        private System.Windows.Forms.Button sprawdz;
     }
 }
 
