@@ -210,7 +210,7 @@ namespace Keystroke_Dynamics___KNN
 
         }
         //METRYKI
-        private static double euklides(int[] x, int[] y) //pobrany i w bazie
+        private static int euklides(int[] x, int[] y) //pobrany i w bazie
         {
             double suma = 0;
             for (int i = 0; i < x.Length; i++)
@@ -218,7 +218,7 @@ namespace Keystroke_Dynamics___KNN
                 suma += (x[i] - y[i]) * (x[i] - y[i]);
             }
 
-            return Math.Sqrt(suma);
+            return (int)Math.Sqrt(suma);
         }
         private static int manhatan(int[] x, int[] y) //pobrany i w bazie
         {
@@ -303,32 +303,36 @@ namespace Keystroke_Dynamics___KNN
             int a = 0;
             return tupleList;
         }
+        int iloscMax;
         private int zbadajListeTupli(List<Tuple<int, int>> lista)
         {
             int indeks=0;
             int max=-1,maxindeks=0;
-
+            iloscMax = 0;
             int[] tmp = new int[10];
-            for (int i=0; i<10; i++)
+            for (int i=0; i<10; i++) // zerujemy tablice ktora zlicza ilosc wystopienia klas
             {
                 tmp[i] = 0;
             }
-            for(int i=0; i<10; i++)
+            for(int i=0; i<10; i++) // tu ustalamy nasze k
             {
                 tmp[lista[i].Item2]++;
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++) // sprawdzamy ktora klasa najczesniej wystapila
             {
                 if (tmp[i] > max) {
 
                     max = tmp[i];
                     maxindeks = i;
                 }
-
+               
             }
-
-            indeks = maxindeks;
+            for (int i = 0; i < 10; i++) // sprawdzamy czy sie powtarza
+            {
+                if (tmp[i] == max) iloscMax++;
+            }
+                indeks = maxindeks;
                 return indeks;
 
         }
@@ -336,12 +340,12 @@ namespace Keystroke_Dynamics___KNN
         {
             string[] klasy= { };
             int[] x = profil;
-            int indeksUzytkownika;
-            List<Tuple<int, int>> listaDosprawdzenia;
+            int indeksUzytkownikaMan, indeksUzytkownikaEuk, indeksUzytkownikaCze;
+            List<Tuple<int, int>> listaDosprawdzeniaMan, listaDosprawdzeniaEuk, listaDosprawdzeniaCze;
             string nickDoSprawdzenia;
             int[] y;
             int[] nazwyKlas=new int[30];
-            int[] odleglosci = new int[30];
+            int[] odleglosciMan = new int[30], odleglosciEuk = new int[30], odleglosciCze = new int[30];
             int kursorDoTablicy = 0;
             int licznikDoNicku = 0;
             string listaWektorow = "C:\\Biometria\\wektorKlas.txt";
@@ -372,7 +376,9 @@ namespace Keystroke_Dynamics___KNN
                         y = pobierzWektror(plikDoPorownania);
 
                         int man = manhatan(x, y);
-                        odleglosci[kursorDoTablicy] = man;
+                        odleglosciMan[kursorDoTablicy] = man;
+                        odleglosciCze[kursorDoTablicy] = czebyszew(x, y);
+                        odleglosciEuk[kursorDoTablicy] = euklides(x, y);
                         licznikDoNicku++;
                         kursorDoTablicy++;
                         plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznikDoNicku.ToString() + ".txt";
@@ -388,22 +394,31 @@ namespace Keystroke_Dynamics___KNN
                 }
                 file.Close();
             }
-            listaDosprawdzenia = stworzListeTupli(odleglosci,nazwyKlas);
-            indeksUzytkownika=zbadajListeTupli(listaDosprawdzenia);
-            string nickWybrany="";
+            listaDosprawdzeniaMan = stworzListeTupli(odleglosciMan,nazwyKlas);
+            indeksUzytkownikaMan=zbadajListeTupli(listaDosprawdzeniaMan);
+
+            listaDosprawdzeniaCze = stworzListeTupli(odleglosciCze, nazwyKlas);
+            indeksUzytkownikaCze = zbadajListeTupli(listaDosprawdzeniaCze);
+
+            listaDosprawdzeniaEuk = stworzListeTupli(odleglosciEuk, nazwyKlas);
+            indeksUzytkownikaEuk = zbadajListeTupli(listaDosprawdzeniaEuk);
+            
+            string nickWybranyMan="", nickWybranyCze="", nickWybranyEuk="";
             int licznikDoWybraniaNicku = 0;
             using (StreamReader file = new StreamReader(uzytkownicy))
             {
                 string liniaPlikuWektor;
                 while ((liniaPlikuWektor = file.ReadLine()) != null)
                 {
-                    if (licznikDoWybraniaNicku == indeksUzytkownika) nickWybrany = liniaPlikuWektor;
+                    if (licznikDoWybraniaNicku == indeksUzytkownikaMan) nickWybranyMan = liniaPlikuWektor;
+                    if (licznikDoWybraniaNicku == indeksUzytkownikaEuk) nickWybranyEuk = liniaPlikuWektor;
+                    if (licznikDoWybraniaNicku == indeksUzytkownikaCze) nickWybranyCze = liniaPlikuWektor;
                     licznikDoWybraniaNicku++;
                     
                     
                 }
             }
-            CzastextBox.Text = nickWybrany;
+            CzastextBox.Text = "Man: "+nickWybranyMan+" Euk: "+nickWybranyEuk+" Cze: "+nickWybranyCze;
         }
     }
 }
