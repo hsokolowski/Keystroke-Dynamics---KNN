@@ -27,6 +27,9 @@ namespace Keystroke_Dynamics___KNN
         string[] nicki;
         private void WpisywanieTextBox_TextChanged(object sender, EventArgs e)
         {
+            literkiErrorLabel.Visible = false;
+            errorLabel.Visible = false;
+            motywujacyLabel.Text = "DOBRZE CI IDZIE";
             if(haslo.Length==WpisywanieTextBox.Text.Length)
             {
                 liczSrednia();
@@ -34,19 +37,24 @@ namespace Keystroke_Dynamics___KNN
             if(WpisywanieTextBox.Text.Length!=0 && WpisywanieTextBox.Text[WpisywanieTextBox.Text.Length-1]!=haslo[WpisywanieTextBox.Text.Length-1])
             {
                 ClearTB();
+                errorLabel.Visible = true;
+                motywujacyLabel.Visible = false;
             }
             else
             {
                 errorLabel.Visible = false;
+                motywujacyLabel.Visible = true;
             }
         }
         private void ClearTB()
         {
             WpisywanieTextBox.Text = "";
-            errorLabel.Visible = true;
+            
             for (int i = 0; i < 27; i++)
+            {
                 profil[i] = 0;
-
+                profilLicznik[i] = 0;
+            }
         }
         private void WpisywanieTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -97,7 +105,7 @@ namespace Keystroke_Dynamics___KNN
         private void generujPlik()
         {
             int licznik = 0;            
-            string fileName = "C:\\Users\\Hubert\\Desktop\\Image\\" + NickTextBox.Text.ToString() + licznik.ToString()+ ".txt";
+            string fileName = "C:\\Biometria\\" + NickTextBox.Text.ToString() + licznik.ToString()+ ".txt";
             string wszystko = "";
             for(int i=0;i<27;i++)
             {
@@ -106,25 +114,45 @@ namespace Keystroke_Dynamics___KNN
             while(File.Exists(fileName))
             {
                 licznik++;
-                fileName = "C:\\Users\\Hubert\\Desktop\\Image\\" + NickTextBox.Text.ToString() + licznik.ToString() + ".txt";
+                fileName = "C:\\Biometria\\" + NickTextBox.Text.ToString() + licznik.ToString() + ".txt";
             }
         
             File.WriteAllText(fileName, wszystko);
            
         }
+        int[] iloscLiter = { 3, 1, 0, 0, 3, 0, 0, 0, 2, 2, 0, 1, 1, 1, 1, 1, 0, 1, 2, 2, 0, 0, 0, 0, 0, 1, 2 };
+        private bool sprawdzPrzyciski()
+        {
+            for (int i = 0; i < 27; i++)
+            {
+                if (profilLicznik[i] != iloscLiter[i]) return false;
+            }
+            return true;
+        }
         private void ZatwierdzButton_Click(object sender, EventArgs e)
         {
-            //liczSrednia();
-            zapiszuzytkownika();
-            zaktualizujBaze();
-            generujPlik(); // dodanie do bazy
-            ++iloscProbek;
-            ClearTB();
-        }
+            liczSrednia();
+            if (sprawdzPrzyciski())
+            {
+                zapiszuzytkownika();
+                zaktualizujBaze();
+                generujPlik(); // dodanie do bazy
+                ++iloscProbek;
+                ClearTB();
+                motywujacyLabel.Text = "Elegancko";
+
+            }
+            else
+            {
+                ClearTB();
+                motywujacyLabel.Visible = false;
+                literkiErrorLabel.Visible = true;
+            }
+    }
 
         private void zapiszuzytkownika()
         {
-            string fileName = "C:\\Users\\Hubert\\Desktop\\Image\\uzytkownicy.txt";
+            string fileName = "C:\\Biometria\\uzytkownicy.txt";
             using (StreamReader file = new StreamReader(fileName))
             {
                 string line;
@@ -143,7 +171,7 @@ namespace Keystroke_Dynamics___KNN
                 if(!czyByluzytkownilk)
                 {
                     wszystko += NickTextBox.Text.ToString();
-                    File.WriteAllText("C:\\Users\\Hubert\\Desktop\\Image\\uzytkownicy.txt", wszystko);
+                    File.WriteAllText("C:\\Biometria\\uzytkownicy.txt", wszystko);
                 }
                
             }
@@ -151,8 +179,8 @@ namespace Keystroke_Dynamics___KNN
 
         private void zaktualizujBaze()
         {
-            string fileName = "C:\\Users\\Hubert\\Desktop\\Image\\uzytkownicy.txt";
-            string fileNameWektor = "C:\\Users\\Hubert\\Desktop\\Image\\wektorKlas.txt";
+            string fileName = "C:\\Biometria\\uzytkownicy.txt";
+            string fileNameWektor = "C:\\Biometria\\wektorKlas.txt";
             using (StreamReader file = new StreamReader(fileName))
             {
                 string line;
@@ -256,7 +284,7 @@ namespace Keystroke_Dynamics___KNN
                     tmp[counter++] = Int32.Parse(line.Substring(pFrom, pTo - pFrom));
                     wszystko +=Int32.Parse(line.Substring(pFrom, pTo - pFrom))+Environment.NewLine;
                 }
-                File.WriteAllText("C:\\Users\\Hubert\\Desktop\\Image\\TEST" + ".txt", wszystko);
+                File.WriteAllText("C:\\Biometria\\TEST" + ".txt", wszystko);
             }
 
             return tmp;
@@ -274,8 +302,8 @@ namespace Keystroke_Dynamics___KNN
             int[] tmp = new int[8];
             int tmpLicznik1 = 0;
             int licznik = 0;
-            string listaWektorow = "C:\\Users\\Hubert\\Desktop\\Image\\wektorKlas.txt";
-            string uzytkownicy = "C:\\Users\\Hubert\\Desktop\\Image\\uzytkownicy.txt";
+            string listaWektorow = "C:\\Biometria\\wektorKlas.txt";
+            string uzytkownicy = "C:\\Biometria\\uzytkownicy.txt";
             using (StreamReader file = new StreamReader(listaWektorow))
             {
                 string line;
@@ -294,7 +322,7 @@ namespace Keystroke_Dynamics___KNN
                 {
                     nickDoSprawdzenia = line;
 
-                    string plikDoPorownania = "C:\\Users\\Hubert\\Desktop\\Image\\" + nickDoSprawdzenia + licznik.ToString() + ".txt";
+                    string plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznik.ToString() + ".txt";
                     while (File.Exists(plikDoPorownania))
                     {
                         y = pobierzWektror(plikDoPorownania);
@@ -303,7 +331,7 @@ namespace Keystroke_Dynamics___KNN
                         tmp[tmpLicznik1] = man;
                         licznik++;
                         tmpLicznik1++;
-                        plikDoPorownania = "C:\\Users\\Hubert\\Desktop\\Image\\" + nickDoSprawdzenia + licznik.ToString() + ".txt";
+                        plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznik.ToString() + ".txt";
                     }
 
 

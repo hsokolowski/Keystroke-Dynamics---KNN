@@ -37,6 +37,8 @@
             this.CzastextBox = new System.Windows.Forms.TextBox();
             this.errorLabel = new System.Windows.Forms.Label();
             this.sprawdz = new System.Windows.Forms.Button();
+            this.literkiErrorLabel = new System.Windows.Forms.Label();
+            this.motywujacyLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -108,11 +110,11 @@
             this.errorLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.errorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.errorLabel.ForeColor = System.Drawing.Color.Red;
-            this.errorLabel.Location = new System.Drawing.Point(548, 85);
+            this.errorLabel.Location = new System.Drawing.Point(573, 69);
             this.errorLabel.Name = "errorLabel";
-            this.errorLabel.Size = new System.Drawing.Size(65, 19);
+            this.errorLabel.Size = new System.Drawing.Size(108, 19);
             this.errorLabel.TabIndex = 7;
-            this.errorLabel.Text = "ERROR";
+            this.errorLabel.Text = "ZLA LITERKA";
             this.errorLabel.Visible = false;
             // 
             // sprawdz
@@ -125,11 +127,41 @@
             this.sprawdz.UseVisualStyleBackColor = true;
             this.sprawdz.Click += new System.EventHandler(this.sprawdz_Click);
             // 
+            // literkiErrorLabel
+            // 
+            this.literkiErrorLabel.AllowDrop = true;
+            this.literkiErrorLabel.AutoSize = true;
+            this.literkiErrorLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.literkiErrorLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.literkiErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.literkiErrorLabel.Location = new System.Drawing.Point(583, 102);
+            this.literkiErrorLabel.Name = "literkiErrorLabel";
+            this.literkiErrorLabel.Size = new System.Drawing.Size(82, 19);
+            this.literkiErrorLabel.TabIndex = 9;
+            this.literkiErrorLabel.Text = "2 LITERKI";
+            this.literkiErrorLabel.Visible = false;
+            // 
+            // motywujacyLabel
+            // 
+            this.motywujacyLabel.AllowDrop = true;
+            this.motywujacyLabel.AutoSize = true;
+            this.motywujacyLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.motywujacyLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.motywujacyLabel.ForeColor = System.Drawing.Color.Green;
+            this.motywujacyLabel.Location = new System.Drawing.Point(326, 63);
+            this.motywujacyLabel.Name = "motywujacyLabel";
+            this.motywujacyLabel.Size = new System.Drawing.Size(137, 19);
+            this.motywujacyLabel.TabIndex = 10;
+            this.motywujacyLabel.Text = "DOBRZE CI IDZIE";
+            this.motywujacyLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.motywujacyLabel);
+            this.Controls.Add(this.literkiErrorLabel);
             this.Controls.Add(this.sprawdz);
             this.Controls.Add(this.errorLabel);
             this.Controls.Add(this.CzastextBox);
@@ -158,6 +190,8 @@
         private System.Windows.Forms.TextBox CzastextBox;
         private System.Windows.Forms.Label errorLabel;
         private System.Windows.Forms.Button sprawdz;
+        private System.Windows.Forms.Label literkiErrorLabel;
+        private System.Windows.Forms.Label motywujacyLabel;
     }
 }
 
