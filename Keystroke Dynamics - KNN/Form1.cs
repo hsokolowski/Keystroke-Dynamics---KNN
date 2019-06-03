@@ -165,7 +165,7 @@ namespace Keystroke_Dynamics___KNN
                 zaktualizujBaze();
                 generujPlik(); // dodanie do bazy
                 ++iloscProbek;
-                ++iloscUzytkownikow;
+                
                 File.WriteAllText("C:\\Biometria\\iloscUzytkownikow.txt",iloscUzytkownikow.ToString());
                 File.WriteAllText("C:\\Biometria\\iloscProbek.txt", iloscProbek.ToString());
                 ClearTB();
@@ -201,6 +201,7 @@ namespace Keystroke_Dynamics___KNN
                 if(!czyByluzytkownilk)
                 {
                     wszystko += NickTextBox.Text.ToString();
+                    iloscUzytkownikow++;
                     File.WriteAllText("C:\\Biometria\\uzytkownicy.txt", wszystko);
                 }
                
@@ -336,15 +337,17 @@ namespace Keystroke_Dynamics___KNN
         int iloscMax;
         private int zbadajListeTupli(List<Tuple<int, int>> lista)
         {
+            int[] doWyboruNajlepszego = new int[iloscUzytkownikow];
             int indeks=0;
             int max=-1,maxindeks=0;
             iloscMax = 0;
+            int k = 10;
             int[] tmp = new int[iloscUzytkownikow];
             for (int i=0; i< iloscUzytkownikow; i++) // zerujemy tablice ktora zlicza ilosc wystopienia klas
             {
                 tmp[i] = 0;
             }
-            for(int i=0; i< iloscUzytkownikow; i++) // tu ustalamy nasze k
+            for(int i=0; i< k; i++) // tu ustalamy nasze k
             {
                 tmp[lista[i].Item2]++;
             }
@@ -363,6 +366,40 @@ namespace Keystroke_Dynamics___KNN
                 if (tmp[i] == max) iloscMax++;
             }
                 indeks = maxindeks;
+            int maxIndekPoPowtorzeniu=0, minPoPowtorzeniu=9999999;
+            if (iloscMax > 1)
+            {
+                
+                for (int i = 0; i < iloscUzytkownikow; i++) // tu ustalamy nasze k
+                {
+                    doWyboruNajlepszego[i] = 0;
+                }
+               for (int i = 0; i < iloscUzytkownikow; i++)
+                {
+                    if(tmp[i]==max)
+                    {
+                        for (int j=0; j<k; j++)
+                        {
+                            if(lista[j].Item2==i)
+                            {
+                                doWyboruNajlepszego[i] += lista[j].Item1;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < iloscUzytkownikow; i++) // sprawdzamy ktora klasa najczesniej wystapila
+                {
+                    if (doWyboruNajlepszego[i] < minPoPowtorzeniu && doWyboruNajlepszego[i]!=0)
+                    {
+
+                        minPoPowtorzeniu = doWyboruNajlepszego[i];
+                        maxIndekPoPowtorzeniu = i;
+                    }
+
+                }
+
+                indeks = maxIndekPoPowtorzeniu;
+            }
                 return indeks;
 
         }
