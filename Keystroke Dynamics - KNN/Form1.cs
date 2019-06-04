@@ -373,7 +373,7 @@ namespace Keystroke_Dynamics___KNN
                 
                 for (int i = 0; i < iloscUzytkownikow; i++) 
                 {
-                    doWyboruNajlepszego[i] = 0;
+                    doWyboruNajlepszego[i] = -1;
                 }
                for (int i = 0; i < iloscUzytkownikow; i++)
                 {
@@ -383,6 +383,7 @@ namespace Keystroke_Dynamics___KNN
                         {
                             if(lista[j].Item2==i)
                             {
+                                if (lista[j].Item1 == 0) doWyboruNajlepszego[i] += 1;
                                 doWyboruNajlepszego[i] += lista[j].Item1;
                             }
                         }
@@ -390,7 +391,7 @@ namespace Keystroke_Dynamics___KNN
                 }
                 for (int i = 0; i < iloscUzytkownikow; i++) 
                 {
-                    if (doWyboruNajlepszego[i] < minPoPowtorzeniu && doWyboruNajlepszego[i]!=0)
+                    if (doWyboruNajlepszego[i] < minPoPowtorzeniu && doWyboruNajlepszego[i]!=-1)
                     {
 
                         minPoPowtorzeniu = doWyboruNajlepszego[i];
@@ -456,7 +457,7 @@ namespace Keystroke_Dynamics___KNN
                     {
                         x = pobierzWektror(plikdoX);
                         licznikDoPobieraniaX++;
-                        plikdoX = "C:\\Biometria\\" + nickDoX + licznikDoPobieraniaX.ToString() + ".txt";
+                       // plikdoX = "C:\\Biometria\\" + nickDoX + licznikDoPobieraniaX.ToString() + ".txt";
                         using (StreamReader file = new StreamReader(uzytkownicy))
                         {
                             string liniaPlikuUzytkownicy;
@@ -468,32 +469,39 @@ namespace Keystroke_Dynamics___KNN
                                 string plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznikDoNicku.ToString() + ".txt";
                                 while (File.Exists(plikDoPorownania))
                                 {
-                                    y = pobierzWektror(plikDoPorownania);
-
+                                    
+                                        y = pobierzWektror(plikDoPorownania);
+                                    if (plikdoX == "C:\\Biometria\\MICHU2.txt")
+                                    { int aaaa = 0; }
 
                                     int man = manhatan(x, y);
-                                    odleglosciMan[kursorDoTablicy] = man;
-                                    //odleglosciBay[kursorDoTablicy] = baycurtis(x, y);
-                                    odleglosciCze[kursorDoTablicy] = czebyszew(x, y);
-                                    odleglosciEuk[kursorDoTablicy] = euklides(x, y);
-                                    licznikDoNicku++;
-                                    kursorDoTablicy++;
-                                    plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznikDoNicku.ToString() + ".txt";
+                                        odleglosciMan[kursorDoTablicy] = man;
+                                        //odleglosciBay[kursorDoTablicy] = baycurtis(x, y);
+                                        odleglosciCze[kursorDoTablicy] = czebyszew(x, y);
+                                        odleglosciEuk[kursorDoTablicy] = euklides(x, y);
+                                        licznikDoNicku++;
+                                        kursorDoTablicy++;
+                                    
+                                        plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznikDoNicku.ToString() + ".txt";
+                                    
                                 }
                                 licznikDoNicku = 0;
 
 
 
                             }
-                            for (int i = 0; i < klasy.Length - 1; i++)
+                            for (int i = 0; i < klasy.Length ; i++)
                             {
                                 nazwyKlas[i] = System.Convert.ToInt32(klasy[i]);
                             }
                             file.Close();
                         }
+                        if (plikdoX == "C:\\Biometria\\MICHU2.txt")
+                        { int aaaa = 0; }
                         listaDosprawdzeniaMan = stworzListeTupli(odleglosciMan, nazwyKlas);
                         indeksUzytkownikaMan = zbadajListeTupli(listaDosprawdzeniaMan);
-
+                        if (plikdoX == "C:\\Biometria\\MICHU2.txt")
+                        { int aaaa = 0; }
                         listaDosprawdzeniaCze = stworzListeTupli(odleglosciCze, nazwyKlas);
                         indeksUzytkownikaCze = zbadajListeTupli(listaDosprawdzeniaCze);
 
@@ -515,7 +523,8 @@ namespace Keystroke_Dynamics___KNN
 
                             }
                         }
-                       // CzastextBox.Text = "Man: " + nickWybranyMan + " Euk: " + nickWybranyEuk + " Cze: " + nickWybranyCze;
+                        // CzastextBox.Text = "Man: " + nickWybranyMan + " Euk: " + nickWybranyEuk + " Cze: " + nickWybranyCze;
+                        
                         if (nickDoX == nickWybranyMan) jakoscMan++;
                         if (nickDoX == nickWybranyEuk) jakoscEuk++;
                         if (nickDoX == nickWybranyCze) jakoscCze++;
@@ -529,10 +538,12 @@ namespace Keystroke_Dynamics___KNN
                         CzastextBox.Text = "Man: " + jakoscManP + " Euk: " + jakoscEukP + " Cze: " + jakoscCzeP+"Ilosc "+iloscDoJakosci;
                        
                         kursorDoTablicy = 0;
+                        plikdoX = "C:\\Biometria\\" + nickDoX + licznikDoPobieraniaX.ToString() + ".txt";
                     }
                     licznikDoPobieraniaX = 0;
                 }
             }
+            int a = 0;
         }
         
 
@@ -589,7 +600,7 @@ namespace Keystroke_Dynamics___KNN
 
 
                 }
-                for (int i=0; i<klasy.Length-1; i++)
+                for (int i=0; i<klasy.Length; i++)
                 {
                     nazwyKlas[i] = System.Convert.ToInt32(klasy[i]);
                 }
