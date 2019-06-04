@@ -95,7 +95,7 @@ namespace Keystroke_Dynamics___KNN
                 //klasy[i] = -1;
                 //if (i < 10) nicki[i] = " ";
             }
-            
+           
             using (StreamReader file = new StreamReader(iloscProbekTxt))
             {
                 string ilosc;
@@ -120,6 +120,7 @@ namespace Keystroke_Dynamics___KNN
                 }
                 file.Close();
             }
+            infoDoKLabel.Text = "Max: " + iloscProbek;
         }
         private void liczSrednia()
         {
@@ -165,7 +166,7 @@ namespace Keystroke_Dynamics___KNN
                 zaktualizujBaze();
                 generujPlik(); // dodanie do bazy
                 ++iloscProbek;
-                
+                infoDoKLabel.Text = "Max: " + iloscProbek;
                 File.WriteAllText("C:\\Biometria\\iloscUzytkownikow.txt",iloscUzytkownikow.ToString());
                 File.WriteAllText("C:\\Biometria\\iloscProbek.txt", iloscProbek.ToString());
                 ClearTB();
@@ -341,7 +342,7 @@ namespace Keystroke_Dynamics___KNN
             int indeks=0;
             int max=-1,maxindeks=0;
             iloscMax = 0;
-            int k = 10;
+            int k =Convert.ToInt32(KtextBOx.Text);
             int[] tmp = new int[iloscUzytkownikow];
             for (int i=0; i< iloscUzytkownikow; i++) // zerujemy tablice ktora zlicza ilosc wystopienia klas
             {
@@ -370,7 +371,7 @@ namespace Keystroke_Dynamics___KNN
             if (iloscMax > 1)
             {
                 
-                for (int i = 0; i < iloscUzytkownikow; i++) // tu ustalamy nasze k
+                for (int i = 0; i < iloscUzytkownikow; i++) 
                 {
                     doWyboruNajlepszego[i] = 0;
                 }
@@ -387,7 +388,7 @@ namespace Keystroke_Dynamics___KNN
                         }
                     }
                 }
-                for (int i = 0; i < iloscUzytkownikow; i++) // sprawdzamy ktora klasa najczesniej wystapila
+                for (int i = 0; i < iloscUzytkownikow; i++) 
                 {
                     if (doWyboruNajlepszego[i] < minPoPowtorzeniu && doWyboruNajlepszego[i]!=0)
                     {
@@ -403,6 +404,138 @@ namespace Keystroke_Dynamics___KNN
                 return indeks;
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Zbadaj_Click(object sender, EventArgs e)
+        
+        {
+            string[] klasy = { };
+            int[] x = profil;
+            int indeksUzytkownikaMan, indeksUzytkownikaEuk, indeksUzytkownikaCze, indeksUzytkownikaBay;
+            List<Tuple<int, int>> listaDosprawdzeniaMan, listaDosprawdzeniaEuk, listaDosprawdzeniaCze,listaDosprawdzeniaBay;
+            string nickDoSprawdzenia;
+            int[] y;
+            int[] nazwyKlas = new int[iloscProbek];
+            int[] odleglosciMan = new int[iloscProbek], odleglosciEuk = new int[iloscProbek], odleglosciCze = new int[iloscProbek], odleglosciBay = new int[iloscProbek];
+            int jakoscMan = 0, jakoscEuk = 0, jakoscCze = 0,iloscDoJakosci=0, jakoscBay=0;
+            double jakoscManP, jakoscEukP, jakoscCzeP, jakoscBayP;
+            int kursorDoTablicy = 0;
+            int licznikDoNicku = 0;
+            string listaWektorow = "C:\\Biometria\\wektorKlas.txt";
+            string uzytkownicy = "C:\\Biometria\\uzytkownicy.txt";
+            int licznikDoPobieraniaX = 0;
+            string nickDoX;
+            string plikdoX;
+            
+         
+               // x = pobierzWektror("C:\\Biometria\\SZYMON0.txt");
+                using (StreamReader file = new StreamReader(listaWektorow))
+                {
+                    string liniaPlikuWektor;
+                    while ((liniaPlikuWektor = file.ReadLine()) != null)
+                    {
+
+                        liniaPlikuWektor.TrimEnd();
+                        klasy = liniaPlikuWektor.Split(new char[] { ' ' });
+                    }
+                    file.Close();
+                }
+
+                using (StreamReader file2 = new StreamReader(uzytkownicy))
+                {
+                    string liniaPlikuUzytkownicyX;
+                while ((liniaPlikuUzytkownicyX = file2.ReadLine()) != null)
+                {
+                    nickDoX = liniaPlikuUzytkownicyX;
+                    plikdoX = "C:\\Biometria\\" + nickDoX + licznikDoPobieraniaX.ToString() + ".txt";
+                    while (File.Exists(plikdoX))
+                    {
+                        x = pobierzWektror(plikdoX);
+                        licznikDoPobieraniaX++;
+                        plikdoX = "C:\\Biometria\\" + nickDoX + licznikDoPobieraniaX.ToString() + ".txt";
+                        using (StreamReader file = new StreamReader(uzytkownicy))
+                        {
+                            string liniaPlikuUzytkownicy;
+
+                            while ((liniaPlikuUzytkownicy = file.ReadLine()) != null)
+                            {
+                                nickDoSprawdzenia = liniaPlikuUzytkownicy;
+
+                                string plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznikDoNicku.ToString() + ".txt";
+                                while (File.Exists(plikDoPorownania))
+                                {
+                                    y = pobierzWektror(plikDoPorownania);
+
+
+                                    int man = manhatan(x, y);
+                                    odleglosciMan[kursorDoTablicy] = man;
+                                    //odleglosciBay[kursorDoTablicy] = baycurtis(x, y);
+                                    odleglosciCze[kursorDoTablicy] = czebyszew(x, y);
+                                    odleglosciEuk[kursorDoTablicy] = euklides(x, y);
+                                    licznikDoNicku++;
+                                    kursorDoTablicy++;
+                                    plikDoPorownania = "C:\\Biometria\\" + nickDoSprawdzenia + licznikDoNicku.ToString() + ".txt";
+                                }
+                                licznikDoNicku = 0;
+
+
+
+                            }
+                            for (int i = 0; i < klasy.Length - 1; i++)
+                            {
+                                nazwyKlas[i] = System.Convert.ToInt32(klasy[i]);
+                            }
+                            file.Close();
+                        }
+                        listaDosprawdzeniaMan = stworzListeTupli(odleglosciMan, nazwyKlas);
+                        indeksUzytkownikaMan = zbadajListeTupli(listaDosprawdzeniaMan);
+
+                        listaDosprawdzeniaCze = stworzListeTupli(odleglosciCze, nazwyKlas);
+                        indeksUzytkownikaCze = zbadajListeTupli(listaDosprawdzeniaCze);
+
+                        listaDosprawdzeniaEuk = stworzListeTupli(odleglosciEuk, nazwyKlas);
+                        indeksUzytkownikaEuk = zbadajListeTupli(listaDosprawdzeniaEuk);
+
+                        string nickWybranyMan = "", nickWybranyCze = "", nickWybranyEuk = "";
+                        int licznikDoWybraniaNicku = 0;
+                        using (StreamReader file = new StreamReader(uzytkownicy))
+                        {
+                            string liniaPlikuWektor;
+                            while ((liniaPlikuWektor = file.ReadLine()) != null)
+                            {
+                                if (licznikDoWybraniaNicku == indeksUzytkownikaMan) nickWybranyMan = liniaPlikuWektor;
+                                if (licznikDoWybraniaNicku == indeksUzytkownikaEuk) nickWybranyEuk = liniaPlikuWektor;
+                                if (licznikDoWybraniaNicku == indeksUzytkownikaCze) nickWybranyCze = liniaPlikuWektor;
+                                licznikDoWybraniaNicku++;
+
+
+                            }
+                        }
+                       // CzastextBox.Text = "Man: " + nickWybranyMan + " Euk: " + nickWybranyEuk + " Cze: " + nickWybranyCze;
+                        if (nickDoX == nickWybranyMan) jakoscMan++;
+                        if (nickDoX == nickWybranyEuk) jakoscEuk++;
+                        if (nickDoX == nickWybranyCze) jakoscCze++;
+                        iloscDoJakosci++;
+                        jakoscCzeP =(double) jakoscCze / iloscDoJakosci;
+                        jakoscEukP = (double)jakoscEuk / iloscDoJakosci;
+                        jakoscManP = (double)jakoscMan / iloscDoJakosci;
+                        jakoscCzeP = Math.Round(jakoscCzeP, 2);
+                        jakoscEukP = Math.Round(jakoscEukP, 2);
+                        jakoscManP = Math.Round(jakoscManP,2);
+                        CzastextBox.Text = "Man: " + jakoscManP + " Euk: " + jakoscEukP + " Cze: " + jakoscCzeP+"Ilosc "+iloscDoJakosci;
+                       
+                        kursorDoTablicy = 0;
+                    }
+                    licznikDoPobieraniaX = 0;
+                }
+            }
+        }
+        
+
         private void sprawdz_Click(object sender, EventArgs e)
         {
             string[] klasy= { };
@@ -441,6 +574,7 @@ namespace Keystroke_Dynamics___KNN
                     while (File.Exists(plikDoPorownania))
                     {
                         y = pobierzWektror(plikDoPorownania);
+                        
 
                         int man = manhatan(x, y);
                         odleglosciMan[kursorDoTablicy] = man;

@@ -39,6 +39,10 @@
             this.sprawdz = new System.Windows.Forms.Button();
             this.literkiErrorLabel = new System.Windows.Forms.Label();
             this.motywujacyLabel = new System.Windows.Forms.Label();
+            this.Zbadaj = new System.Windows.Forms.Button();
+            this.KtextBOx = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.infoDoKLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -87,7 +91,7 @@
             // 
             // ZatwierdzButton
             // 
-            this.ZatwierdzButton.Location = new System.Drawing.Point(337, 198);
+            this.ZatwierdzButton.Location = new System.Drawing.Point(593, 143);
             this.ZatwierdzButton.Name = "ZatwierdzButton";
             this.ZatwierdzButton.Size = new System.Drawing.Size(88, 23);
             this.ZatwierdzButton.TabIndex = 5;
@@ -97,7 +101,7 @@
             // 
             // CzastextBox
             // 
-            this.CzastextBox.Location = new System.Drawing.Point(223, 291);
+            this.CzastextBox.Location = new System.Drawing.Point(213, 407);
             this.CzastextBox.Name = "CzastextBox";
             this.CzastextBox.Size = new System.Drawing.Size(319, 22);
             this.CzastextBox.TabIndex = 6;
@@ -119,7 +123,7 @@
             // 
             // sprawdz
             // 
-            this.sprawdz.Location = new System.Drawing.Point(446, 197);
+            this.sprawdz.Location = new System.Drawing.Point(464, 216);
             this.sprawdz.Name = "sprawdz";
             this.sprawdz.Size = new System.Drawing.Size(96, 24);
             this.sprawdz.TabIndex = 8;
@@ -155,11 +159,50 @@
             this.motywujacyLabel.Text = "DOBRZE CI IDZIE";
             this.motywujacyLabel.Visible = false;
             // 
+            // Zbadaj
+            // 
+            this.Zbadaj.Location = new System.Drawing.Point(443, 265);
+            this.Zbadaj.Name = "Zbadaj";
+            this.Zbadaj.Size = new System.Drawing.Size(161, 23);
+            this.Zbadaj.TabIndex = 11;
+            this.Zbadaj.Text = "Zbadaj jakość";
+            this.Zbadaj.UseVisualStyleBackColor = true;
+            this.Zbadaj.Click += new System.EventHandler(this.Zbadaj_Click);
+            // 
+            // KtextBOx
+            // 
+            this.KtextBOx.Location = new System.Drawing.Point(213, 234);
+            this.KtextBOx.Name = "KtextBOx";
+            this.KtextBOx.Size = new System.Drawing.Size(196, 22);
+            this.KtextBOx.TabIndex = 12;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(88, 237);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 17);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Podaj K:";
+            // 
+            // infoDoKLabel
+            // 
+            this.infoDoKLabel.AutoSize = true;
+            this.infoDoKLabel.Location = new System.Drawing.Point(143, 237);
+            this.infoDoKLabel.Name = "infoDoKLabel";
+            this.infoDoKLabel.Size = new System.Drawing.Size(64, 17);
+            this.infoDoKLabel.TabIndex = 14;
+            this.infoDoKLabel.Text = "(Max-35)";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.infoDoKLabel);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.KtextBOx);
+            this.Controls.Add(this.Zbadaj);
             this.Controls.Add(this.motywujacyLabel);
             this.Controls.Add(this.literkiErrorLabel);
             this.Controls.Add(this.sprawdz);
@@ -192,6 +235,10 @@
         private System.Windows.Forms.Button sprawdz;
         private System.Windows.Forms.Label literkiErrorLabel;
         private System.Windows.Forms.Label motywujacyLabel;
+        private System.Windows.Forms.Button Zbadaj;
+        private System.Windows.Forms.TextBox KtextBOx;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label infoDoKLabel;
     }
 }
 
